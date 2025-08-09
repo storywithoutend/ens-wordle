@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import type { GameState } from '@types';
-import { calculateGameDuration } from '@utils/gameLogic';
+import type { GameState } from '../../types';
+import { calculateGameDuration } from '../../utils/gameLogic';
 import './GameComplete.css';
 
 interface GameCompleteProps {

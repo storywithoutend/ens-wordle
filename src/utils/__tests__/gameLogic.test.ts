@@ -11,7 +11,7 @@ import {
   isValidGuess,
   createGuess,
 } from '../gameLogic';
-import type { LetterState } from '@types';
+import type { LetterState } from '../../types';
 
 describe('gameLogic', () => {
   describe('validateGuess', () => {

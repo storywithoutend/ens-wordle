@@ -2,8 +2,8 @@
  * ENS name selection and management utilities
  */
 
-import type { CuratedENSName } from '@types';
-import curatedNames from '@data/curated-ens-names.json';
+import type { CuratedENSName } from '../types';
+import curatedNames from '../data/curated-ens-names.json';
 
 /**
  * Gets a random ENS name from the curated list

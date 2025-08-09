@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import type { Guess } from '@types';
+import type { Guess } from '../../types';
 import { LetterCell } from './LetterCell';
 import './GameGrid.css';
 
@@ -28,6 +28,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
   // Add completed guess rows
   for (let i = 0; i < guesses.length; i++) {
     const guess = guesses[i];
+    if (!guess) continue;
     const row = [];
     
     for (let j = 0; j < targetLength; j++) {

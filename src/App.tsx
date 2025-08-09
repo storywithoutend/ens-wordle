@@ -1,9 +1,9 @@
 /**
  * Main App component for ENS-Wordle
  */
-import { GameBoard } from '@components/game/GameBoard';
-import { ErrorBoundary } from '@components/ui/ErrorBoundary';
-import '@styles/App.css';
+import { GameBoard } from './components/game/GameBoard';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import './styles/App.css';
 
 function App() {
   return (

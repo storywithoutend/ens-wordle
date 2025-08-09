@@ -3,19 +3,18 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, GameStats, CuratedENSName } from '@types';
+import type { GameState, GameStats } from '../types';
 import {
   INITIAL_GAME_STATE,
   DEFAULT_GAME_CONFIG,
-} from '@types';
+} from '../types';
 import {
-  validateGuess,
   updateLetterStates,
   isGameWon,
   isGameLost,
   isValidGuess,
   createGuess,
-} from '@utils/gameLogic';
+} from '../utils/gameLogic';
 import {
   saveGameState,
   loadGameState,
@@ -24,8 +23,7 @@ import {
   saveGameStats,
   createDefaultStats,
   updateGameStats,
-} from '@utils/localStorage';
-import { getRandomENSName } from '@utils/ensNames';
+} from '../utils/localStorage';
 
 export interface UseGameStateReturn {
   gameState: GameState;
@@ -68,11 +66,13 @@ export function useGameState(): UseGameStateReturn {
    * Creates a new game state
    */
   function initializeNewGame(): GameState {
-    const selectedName = getRandomENSName();
+    // Temporary fallback with hardcoded names until ENS integration is complete
+    const tempNames = ['vitalik', 'ens', 'ethereum', 'uniswap', 'compound'];
+    const randomName = tempNames[Math.floor(Math.random() * tempNames.length)] || 'vitalik';
     
     return {
       ...INITIAL_GAME_STATE,
-      currentENSName: selectedName.name,
+      currentENSName: randomName,
       startTime: Date.now(),
     };
   }

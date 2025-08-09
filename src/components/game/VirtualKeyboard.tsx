@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import type { LetterState } from '@types';
+import type { LetterState } from '../../types';
 import './VirtualKeyboard.css';
 
 interface VirtualKeyboardProps {

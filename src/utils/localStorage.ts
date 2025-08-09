@@ -2,7 +2,7 @@
  * Local storage utilities with graceful fallback handling
  */
 
-import type { GameState, GameStats } from '@types';
+import type { GameState, GameStats } from '../types';
 
 const GAME_STATE_KEY = 'ens-wordle-game-state';
 const GAME_STATS_KEY = 'ens-wordle-stats';
@@ -104,7 +104,7 @@ function validateGameState(data: unknown): GameState | null {
     return null;
   }
 
-  return state as GameState;
+  return state as unknown as GameState;
 }
 
 /**

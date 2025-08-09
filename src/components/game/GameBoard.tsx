@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { useGameState } from '@hooks/useGameState';
+import { useGameState } from '../../hooks/useGameState';
 import { GameGrid } from './GameGrid';
 import { VirtualKeyboard } from './VirtualKeyboard';
 import { GameComplete } from './GameComplete';

@@ -2,7 +2,7 @@
  * Core game logic utilities for ENS-Wordle
  */
 
-import type { LetterState, Guess } from '@types';
+import type { LetterState, Guess } from '../types';
 
 /**
  * Validates a guess against the target word and returns feedback
@@ -24,7 +24,7 @@ export function validateGuess(guess: string, target: string): LetterState[] {
   // Second pass: mark wrong position matches
   for (let i = 0; i < guessLetters.length; i++) {
     if (feedback[i] === 'absent') {
-      const targetIndex = targetLetters.indexOf(guessLetters[i]);
+      const targetIndex = targetLetters.indexOf(guessLetters[i] || '');
       if (targetIndex !== -1) {
         feedback[i] = 'wrong-position';
         targetLetters[targetIndex] = ''; // Mark as used
@@ -46,7 +46,8 @@ export function updateLetterStates(
   const newStates = { ...currentStates };
   
   for (let i = 0; i < guess.length; i++) {
-    const letter = guess[i].toLowerCase();
+    const letter = guess[i]?.toLowerCase();
+    if (!letter) continue;
     const currentState = newStates[letter] || 'unused';
     const newState = feedback[i];
     
