@@ -24,7 +24,9 @@ export const LetterCell: React.FC<LetterCellProps> = ({
     `state-${state}`,
     isCurrentGuess ? 'current-guess' : '',
     letter ? 'filled' : 'empty',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
@@ -33,7 +35,7 @@ export const LetterCell: React.FC<LetterCellProps> = ({
       data-col={position.col}
       role="gridcell"
       aria-label={
-        letter 
+        letter
           ? `${letter.toUpperCase()}, ${state}`
           : `Empty cell, row ${position.row + 1}, column ${position.col + 1}`
       }

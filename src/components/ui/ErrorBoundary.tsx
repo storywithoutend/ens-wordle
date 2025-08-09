@@ -25,7 +25,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('React Error Boundary caught an error:', error, errorInfo);
-    
+
     this.setState({
       error,
       errorInfo,
@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
     } catch {
       // Ignore localStorage errors
     }
-    
+
     this.setState({ hasError: false });
   };
 
@@ -55,25 +55,19 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="error-content">
             <h1>Something went wrong</h1>
             <p>
-              We're sorry, but something unexpected happened. 
-              You can try reloading the page or starting fresh.
+              We're sorry, but something unexpected happened. You can try
+              reloading the page or starting fresh.
             </p>
-            
+
             <div className="error-actions">
-              <button 
-                onClick={this.handleReload}
-                className="btn btn-primary"
-              >
+              <button onClick={this.handleReload} className="btn btn-primary">
                 Reload Page
               </button>
-              <button 
-                onClick={this.handleReset}
-                className="btn btn-secondary"
-              >
+              <button onClick={this.handleReset} className="btn btn-secondary">
                 Start Fresh
               </button>
             </div>
-            
+
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="error-details">
                 <summary>Error Details (Development)</summary>

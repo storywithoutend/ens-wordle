@@ -24,7 +24,7 @@ const localStorageMock = {
 
 // Mock for localStorage
 Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock
+  value: localStorageMock,
 });
 
 // Reset localStorage mocks before each test

@@ -68,13 +68,13 @@
   .game-board {
     gap: var(--spacing-md);
   }
-  
+
   .avatar-placeholder {
     width: 160px;
     min-height: 100px;
     padding: var(--spacing-md);
   }
-  
+
   .placeholder-icon {
     font-size: var(--font-size-xl);
   }

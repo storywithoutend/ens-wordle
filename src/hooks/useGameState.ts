@@ -4,10 +4,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import type { GameState, GameStats } from '../types';
-import {
-  INITIAL_GAME_STATE,
-  DEFAULT_GAME_CONFIG,
-} from '../types';
+import { INITIAL_GAME_STATE, DEFAULT_GAME_CONFIG } from '../types';
 import {
   updateLetterStates,
   isGameWon,
@@ -24,6 +21,7 @@ import {
   createDefaultStats,
   updateGameStats,
 } from '../utils/localStorage';
+import { getRandomENSName, getFallbackENSName } from '../utils/ensNames';
 
 export interface UseGameStateReturn {
   gameState: GameState;
@@ -44,7 +42,7 @@ export function useGameState(): UseGameStateReturn {
     if (savedState && savedState.gameStatus === 'playing') {
       return savedState;
     }
-    
+
     return initializeNewGame();
   });
 
@@ -66,82 +64,101 @@ export function useGameState(): UseGameStateReturn {
    * Creates a new game state
    */
   function initializeNewGame(): GameState {
-    // Temporary fallback with hardcoded names until ENS integration is complete
-    const tempNames = ['vitalik', 'ens', 'ethereum', 'uniswap', 'compound'];
-    const randomName = tempNames[Math.floor(Math.random() * tempNames.length)] || 'vitalik';
-    
-    return {
-      ...INITIAL_GAME_STATE,
-      currentENSName: randomName,
-      startTime: Date.now(),
-    };
+    try {
+      const selectedENS = getRandomENSName();
+      console.log(
+        `[GameState] Starting new game with ENS: ${selectedENS.name}.eth`
+      );
+
+      return {
+        ...INITIAL_GAME_STATE,
+        currentENSName: selectedENS.name,
+        startTime: Date.now(),
+      };
+    } catch (error) {
+      console.error(
+        '[GameState] Error selecting random ENS name, using fallback:',
+        error
+      );
+      const fallbackENS = getFallbackENSName();
+
+      return {
+        ...INITIAL_GAME_STATE,
+        currentENSName: fallbackENS.name,
+        startTime: Date.now(),
+      };
+    }
   }
 
   /**
    * Makes a guess and updates game state
    */
-  const makeGuess = useCallback((word: string) => {
-    if (gameState.gameStatus !== 'playing') {
-      return { success: false, error: 'Game is not in playing state' };
-    }
-
-    // Validate guess format
-    if (!isValidGuess(word, gameState.currentENSName.length)) {
-      if (word.length !== gameState.currentENSName.length) {
-        return { 
-          success: false, 
-          error: `Must be ${gameState.currentENSName.length} letters` 
-        };
+  const makeGuess = useCallback(
+    (word: string) => {
+      if (gameState.gameStatus !== 'playing') {
+        return { success: false, error: 'Game is not in playing state' };
       }
-      if (!/^[a-zA-Z]+$/.test(word)) {
-        return { success: false, error: 'Only letters allowed' };
+
+      // Validate guess format
+      if (!isValidGuess(word, gameState.currentENSName.length)) {
+        if (word.length !== gameState.currentENSName.length) {
+          return {
+            success: false,
+            error: `Must be ${gameState.currentENSName.length} letters`,
+          };
+        }
+        if (!/^[a-zA-Z]+$/.test(word)) {
+          return { success: false, error: 'Only letters allowed' };
+        }
       }
-    }
 
-    // Create new guess with feedback
-    const guess = createGuess(word, gameState.currentENSName);
-    const newGuesses = [...gameState.guesses, guess];
-    const newLetterStates = updateLetterStates(
-      gameState.letterStates,
-      word,
-      guess.feedback
-    );
+      // Create new guess with feedback
+      const guess = createGuess(word, gameState.currentENSName);
+      const newGuesses = [...gameState.guesses, guess];
+      const newLetterStates = updateLetterStates(
+        gameState.letterStates,
+        word,
+        guess.feedback
+      );
 
-    // Check win condition
-    const won = isGameWon(guess.feedback);
-    const lost = !won && isGameLost(newGuesses.length, DEFAULT_GAME_CONFIG.maxGuesses);
-    
-    let newGameStatus: GameState['gameStatus'] = 'playing';
-    let endTime: number | undefined;
-    
-    if (won) {
-      newGameStatus = 'won';
-      endTime = Date.now();
-    } else if (lost) {
-      newGameStatus = 'lost';
-      endTime = Date.now();
-    }
+      // Check win condition
+      const won = isGameWon(guess.feedback);
+      const lost =
+        !won && isGameLost(newGuesses.length, DEFAULT_GAME_CONFIG.maxGuesses);
 
-    // Update game state
-    const newGameState: GameState = {
-      ...gameState,
-      guesses: newGuesses,
-      currentGuessIndex: gameState.currentGuessIndex + 1,
-      letterStates: newLetterStates,
-      gameStatus: newGameStatus,
-      endTime,
-    };
+      let newGameStatus: GameState['gameStatus'] = 'playing';
+      let endTime: number | undefined;
 
-    setGameState(newGameState);
+      if (won) {
+        newGameStatus = 'won';
+        endTime = Date.now();
+      } else if (lost) {
+        newGameStatus = 'lost';
+        endTime = Date.now();
+      }
 
-    // Update stats if game completed
-    if (won || lost) {
-      const newStats = updateGameStats(gameStats, won, newGuesses.length);
-      setGameStats(newStats);
-    }
+      // Update game state
+      const newGameState: GameState = {
+        ...gameState,
+        guesses: newGuesses,
+        currentGuessIndex: gameState.currentGuessIndex + 1,
+        letterStates: newLetterStates,
+        gameStatus: newGameStatus,
+        endTime,
+      };
 
-    return { success: true };
-  }, [gameState, gameStats]);
+      setGameState(newGameState);
+
+      // Update stats if game completed
+      if (won || lost) {
+        const newStats = updateGameStats(gameStats, won, newGuesses.length);
+        setGameStats(newStats);
+      }
+
+      return { success: true };
+    },
+    [gameState, gameStats]
+  );
 
   /**
    * Starts a completely new game
@@ -168,9 +185,12 @@ export function useGameState(): UseGameStateReturn {
   /**
    * Validates guess format without making the guess
    */
-  const isValidGuessFormat = useCallback((word: string) => {
-    return isValidGuess(word, gameState.currentENSName.length);
-  }, [gameState.currentENSName.length]);
+  const isValidGuessFormat = useCallback(
+    (word: string) => {
+      return isValidGuess(word, gameState.currentENSName.length);
+    },
+    [gameState.currentENSName.length]
+  );
 
   return {
     gameState,

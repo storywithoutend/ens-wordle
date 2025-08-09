@@ -18,30 +18,48 @@ describe('gameLogic', () => {
     it('should identify correct letters in correct positions', () => {
       const result = validateGuess('vitalik', 'vitalik');
       expect(result).toEqual([
-        'correct', 'correct', 'correct', 'correct', 
-        'correct', 'correct', 'correct'
+        'correct',
+        'correct',
+        'correct',
+        'correct',
+        'correct',
+        'correct',
+        'correct',
       ]);
     });
 
     it('should identify wrong position letters', () => {
       const result = validateGuess('hello', 'world');
+      // h=absent, e=absent, l=absent (l is in word but already matched exactly at pos 3), l=correct, o=wrong-position
       expect(result).toEqual([
-        'absent', 'absent', 'wrong-position', 'wrong-position', 'absent'
+        'absent',
+        'absent',
+        'absent',
+        'correct',
+        'wrong-position',
       ]);
     });
 
     it('should handle duplicate letters correctly', () => {
       const result = validateGuess('hello', 'alley');
-      // h=absent, e=wrong-position, l=correct, l=correct, o=absent
+      // h=absent, e=wrong-position, l=correct, l=wrong-position, o=absent
       expect(result).toEqual([
-        'absent', 'wrong-position', 'correct', 'correct', 'absent'
+        'absent',
+        'wrong-position',
+        'correct',
+        'wrong-position',
+        'absent',
       ]);
     });
 
     it('should handle case insensitive matching', () => {
       const result = validateGuess('HELLO', 'hello');
       expect(result).toEqual([
-        'correct', 'correct', 'correct', 'correct', 'correct'
+        'correct',
+        'correct',
+        'correct',
+        'correct',
+        'correct',
       ]);
     });
   });
@@ -49,30 +67,37 @@ describe('gameLogic', () => {
   describe('updateLetterStates', () => {
     it('should update letter states correctly', () => {
       const currentStates: Record<string, LetterState> = {
-        'a': 'unused',
-        'b': 'absent',
+        a: 'unused',
+        b: 'absent',
       };
-      
-      const result = updateLetterStates(currentStates, 'abc', ['correct', 'wrong-position', 'absent']);
-      
+
+      const result = updateLetterStates(currentStates, 'abc', [
+        'correct',
+        'wrong-position',
+        'absent',
+      ]);
+
       expect(result).toEqual({
-        'a': 'correct',
-        'b': 'wrong-position', // Should upgrade from absent
-        'c': 'absent',
+        a: 'correct',
+        b: 'wrong-position', // Should upgrade from absent
+        c: 'absent',
       });
     });
 
     it('should not downgrade letter states', () => {
       const currentStates: Record<string, LetterState> = {
-        'a': 'correct',
-        'b': 'wrong-position',
+        a: 'correct',
+        b: 'wrong-position',
       };
-      
-      const result = updateLetterStates(currentStates, 'ab', ['absent', 'absent']);
-      
+
+      const result = updateLetterStates(currentStates, 'ab', [
+        'absent',
+        'absent',
+      ]);
+
       expect(result).toEqual({
-        'a': 'correct', // Should not downgrade
-        'b': 'wrong-position', // Should not downgrade
+        a: 'correct', // Should not downgrade
+        b: 'wrong-position', // Should not downgrade
       });
     });
   });
@@ -125,10 +150,14 @@ describe('gameLogic', () => {
   describe('createGuess', () => {
     it('should create guess with correct feedback', () => {
       const guess = createGuess('hello', 'world');
-      
+
       expect(guess.word).toBe('hello');
       expect(guess.feedback).toEqual([
-        'absent', 'absent', 'wrong-position', 'wrong-position', 'absent'
+        'absent',
+        'absent',
+        'absent',
+        'correct',
+        'wrong-position',
       ]);
     });
 

@@ -115,11 +115,11 @@
     padding: var(--spacing-sm);
     gap: var(--spacing-md);
   }
-  
+
   .app-title {
     font-size: var(--font-size-xl);
   }
-  
+
   .app-subtitle {
     font-size: var(--font-size-sm);
   }

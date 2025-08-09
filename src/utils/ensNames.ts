@@ -13,7 +13,7 @@ export function getRandomENSName(): CuratedENSName {
   if (names.length === 0) {
     throw new Error('No curated ENS names available');
   }
-  
+
   const randomIndex = Math.floor(Math.random() * names.length);
   return names[randomIndex];
 }
@@ -26,12 +26,14 @@ export function getRandomENSNameByDifficulty(
 ): CuratedENSName {
   const names = curatedNames as CuratedENSName[];
   const filteredNames = names.filter(name => name.difficulty === difficulty);
-  
+
   if (filteredNames.length === 0) {
-    console.warn(`No ${difficulty} names available, falling back to any difficulty`);
+    console.warn(
+      `No ${difficulty} names available, falling back to any difficulty`
+    );
     return getRandomENSName();
   }
-  
+
   const randomIndex = Math.floor(Math.random() * filteredNames.length);
   return filteredNames[randomIndex];
 }
@@ -44,12 +46,14 @@ export function getRandomENSNameByCategory(
 ): CuratedENSName {
   const names = curatedNames as CuratedENSName[];
   const filteredNames = names.filter(name => name.category === category);
-  
+
   if (filteredNames.length === 0) {
-    console.warn(`No ${category} names available, falling back to any category`);
+    console.warn(
+      `No ${category} names available, falling back to any category`
+    );
     return getRandomENSName();
   }
-  
+
   const randomIndex = Math.floor(Math.random() * filteredNames.length);
   return filteredNames[randomIndex];
 }
@@ -59,7 +63,9 @@ export function getRandomENSNameByCategory(
  */
 export function isValidCuratedName(name: string): boolean {
   const names = curatedNames as CuratedENSName[];
-  return names.some(curatedName => curatedName.name.toLowerCase() === name.toLowerCase());
+  return names.some(
+    curatedName => curatedName.name.toLowerCase() === name.toLowerCase()
+  );
 }
 
 /**
@@ -67,9 +73,11 @@ export function isValidCuratedName(name: string): boolean {
  */
 export function getENSNameMetadata(name: string): CuratedENSName | null {
   const names = curatedNames as CuratedENSName[];
-  return names.find(curatedName => 
-    curatedName.name.toLowerCase() === name.toLowerCase()
-  ) || null;
+  return (
+    names.find(
+      curatedName => curatedName.name.toLowerCase() === name.toLowerCase()
+    ) || null
+  );
 }
 
 /**
@@ -77,14 +85,15 @@ export function getENSNameMetadata(name: string): CuratedENSName | null {
  */
 export function getFallbackENSName(): CuratedENSName {
   const names = curatedNames as CuratedENSName[];
-  
+
   // Try to find a reliable fallback (short, known to have avatar)
-  const fallback = names.find(name => 
-    name.name === 'vitalik' || 
-    name.name === 'ens' ||
-    (name.difficulty === 'easy' && name.hasAvatar)
+  const fallback = names.find(
+    name =>
+      name.name === 'vitalik' ||
+      name.name === 'ens' ||
+      (name.difficulty === 'easy' && name.hasAvatar)
   );
-  
+
   return fallback || names[0];
 }
 
@@ -93,7 +102,7 @@ export function getFallbackENSName(): CuratedENSName {
  */
 export function getCuratedListStats() {
   const names = curatedNames as CuratedENSName[];
-  
+
   const stats = {
     total: names.length,
     byDifficulty: {
@@ -111,7 +120,7 @@ export function getCuratedListStats() {
       names.reduce((sum, name) => sum + name.name.length, 0) / names.length
     ),
   };
-  
+
   return stats;
 }
 
@@ -126,50 +135,50 @@ export function validateCuratedList(): {
   const names = curatedNames as CuratedENSName[];
   const errors: string[] = [];
   const warnings: string[] = [];
-  
+
   if (names.length === 0) {
     errors.push('Curated list is empty');
     return { isValid: false, errors, warnings };
   }
-  
+
   const seenNames = new Set<string>();
-  
+
   names.forEach((name, index) => {
     // Check for required fields
     if (!name.name || typeof name.name !== 'string') {
       errors.push(`Entry ${index}: missing or invalid name field`);
     }
-    
+
     if (!['easy', 'medium', 'hard'].includes(name.difficulty)) {
       errors.push(`Entry ${index}: invalid difficulty "${name.difficulty}"`);
     }
-    
+
     if (!['individual', 'project', 'generic'].includes(name.category)) {
       errors.push(`Entry ${index}: invalid category "${name.category}"`);
     }
-    
+
     // Check for duplicates
     const lowerName = name.name.toLowerCase();
     if (seenNames.has(lowerName)) {
       errors.push(`Entry ${index}: duplicate name "${name.name}"`);
     }
     seenNames.add(lowerName);
-    
+
     // Check name format
     if (!/^[a-zA-Z0-9-]+$/.test(name.name)) {
       errors.push(`Entry ${index}: invalid characters in "${name.name}"`);
     }
-    
+
     // Length warnings
     if (name.name.length < 3) {
       warnings.push(`Entry ${index}: very short name "${name.name}"`);
     }
-    
+
     if (name.name.length > 12) {
       warnings.push(`Entry ${index}: very long name "${name.name}"`);
     }
   });
-  
+
   return {
     isValid: errors.length === 0,
     errors,

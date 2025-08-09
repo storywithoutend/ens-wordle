@@ -12,7 +12,7 @@ export function validateGuess(guess: string, target: string): LetterState[] {
   const feedback: LetterState[] = new Array(guess.length).fill('absent');
   const targetLetters = target.toLowerCase().split('');
   const guessLetters = guess.toLowerCase().split('');
-  
+
   // First pass: mark exact matches
   for (let i = 0; i < guessLetters.length; i++) {
     if (guessLetters[i] === targetLetters[i]) {
@@ -20,7 +20,7 @@ export function validateGuess(guess: string, target: string): LetterState[] {
       targetLetters[i] = ''; // Mark as used
     }
   }
-  
+
   // Second pass: mark wrong position matches
   for (let i = 0; i < guessLetters.length; i++) {
     if (feedback[i] === 'absent') {
@@ -31,7 +31,7 @@ export function validateGuess(guess: string, target: string): LetterState[] {
       }
     }
   }
-  
+
   return feedback;
 }
 
@@ -44,23 +44,24 @@ export function updateLetterStates(
   feedback: LetterState[]
 ): Record<string, LetterState> {
   const newStates = { ...currentStates };
-  
+
   for (let i = 0; i < guess.length; i++) {
     const letter = guess[i]?.toLowerCase();
     if (!letter) continue;
     const currentState = newStates[letter] || 'unused';
     const newState = feedback[i];
-    
+
     // Priority: correct > wrong-position > absent > unused
     if (
       newState === 'correct' ||
       (newState === 'wrong-position' && currentState !== 'correct') ||
-      (newState === 'absent' && !['correct', 'wrong-position'].includes(currentState))
+      (newState === 'absent' &&
+        !['correct', 'wrong-position'].includes(currentState))
     ) {
       newStates[letter] = newState;
     }
   }
-  
+
   return newStates;
 }
 
@@ -109,7 +110,10 @@ export function formatGuessForDisplay(word: string): string {
 /**
  * Calculates game statistics
  */
-export function calculateGameDuration(startTime: number, endTime?: number): number {
+export function calculateGameDuration(
+  startTime: number,
+  endTime?: number
+): number {
   const end = endTime || Date.now();
   return Math.round((end - startTime) / 1000); // seconds
 }

@@ -4,18 +4,20 @@
 
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
+import { useENSAvatar } from '../../hooks/useENSAvatar';
 import { GameGrid } from './GameGrid';
 import { VirtualKeyboard } from './VirtualKeyboard';
 import { GameComplete } from './GameComplete';
+import { AvatarDisplay } from './AvatarDisplay';
 import './GameBoard.css';
 
 export const GameBoard: React.FC = () => {
-  const {
-    gameState,
-    makeGuess,
-    startNewGame,
-    isValidGuessFormat,
-  } = useGameState();
+  const { gameState, makeGuess, startNewGame, isValidGuessFormat } =
+    useGameState();
+
+  const { avatarState, retry: retryAvatar } = useENSAvatar(
+    gameState.currentENSName
+  );
 
   const [currentInput, setCurrentInput] = React.useState('');
   const [inputError, setInputError] = React.useState<string>('');
@@ -26,55 +28,61 @@ export const GameBoard: React.FC = () => {
   /**
    * Submits a word (used by both manual submit and auto-submit)
    */
-  const submitWord = React.useCallback((word: string) => {
-    if (isGameComplete) return;
+  const submitWord = React.useCallback(
+    (word: string) => {
+      if (isGameComplete) return;
 
-    if (word.length !== targetLength) {
-      setInputError(`Must be ${targetLength} letters`);
-      return;
-    }
+      if (word.length !== targetLength) {
+        setInputError(`Must be ${targetLength} letters`);
+        return;
+      }
 
-    if (!isValidGuessFormat(word)) {
-      setInputError('Only letters allowed');
-      return;
-    }
+      if (!isValidGuessFormat(word)) {
+        setInputError('Only letters allowed');
+        return;
+      }
 
-    const result = makeGuess(word);
-    
-    if (result.success) {
-      setCurrentInput('');
-      setInputError('');
-    } else if (result.error) {
-      setInputError(result.error);
-    }
-  }, [isGameComplete, targetLength, isValidGuessFormat, makeGuess]);
+      const result = makeGuess(word);
+
+      if (result.success) {
+        setCurrentInput('');
+        setInputError('');
+      } else if (result.error) {
+        setInputError(result.error);
+      }
+    },
+    [isGameComplete, targetLength, isValidGuessFormat, makeGuess]
+  );
 
   /**
    * Handles letter input from virtual keyboard
    */
-  const handleLetterInput = React.useCallback((letter: string) => {
-    if (isGameComplete) return;
+  const handleLetterInput = React.useCallback(
+    (letter: string) => {
+      if (isGameComplete) return;
 
-    setInputError('');
+      setInputError('');
 
-    if (currentInput.length < targetLength) {
-      const newInput = currentInput + letter.toLowerCase();
-      setCurrentInput(newInput);
-      
-      // Auto-submit when word is complete
-      if (newInput.length === targetLength) {
-        // Auto-submit the completed word
-        submitWord(newInput);
+      if (currentInput.length < targetLength) {
+        const newInput = currentInput + letter.toLowerCase();
+        setCurrentInput(newInput);
+
+        // Auto-submit when word is complete
+        if (newInput.length === targetLength) {
+          // Auto-submit the completed word
+          submitWord(newInput);
+        }
       }
-    }
-  }, [isGameComplete, currentInput, targetLength, submitWord]);
+    },
+    [isGameComplete, currentInput, targetLength, submitWord]
+  );
 
   /**
    * Handles backspace input
    */
   const handleBackspace = React.useCallback(() => {
     if (isGameComplete) return;
-    
+
     setInputError('');
     setCurrentInput(prev => prev.slice(0, -1));
   }, [isGameComplete]);
@@ -117,12 +125,26 @@ export const GameBoard: React.FC = () => {
 
   return (
     <div className="game-board">
-      {/* Avatar Display Area - TODO: Implement avatar component */}
+      {/* Avatar Display Area */}
       <div className="avatar-section">
-        <div className="avatar-placeholder">
-          <div className="placeholder-icon">🖼️</div>
-          <p>Avatar for: {gameState.currentENSName}.eth</p>
-        </div>
+        <AvatarDisplay
+          ensName={gameState.currentENSName}
+          avatarUrl={
+            avatarState.type === 'loaded' ? avatarState.src : undefined
+          }
+          state={avatarState.type}
+          onImageLoad={() =>
+            console.log(
+              `[GameBoard] Avatar loaded for ${gameState.currentENSName}`
+            )
+          }
+          onImageError={() => {
+            console.warn(
+              `[GameBoard] Avatar failed to load for ${gameState.currentENSName}`
+            );
+            retryAvatar();
+          }}
+        />
       </div>
 
       {/* Game Grid */}
@@ -154,10 +176,7 @@ export const GameBoard: React.FC = () => {
 
       {/* Game Complete Modal */}
       {isGameComplete && (
-        <GameComplete
-          gameState={gameState}
-          onNewGame={handleNewGame}
-        />
+        <GameComplete gameState={gameState} onNewGame={handleNewGame} />
       )}
     </div>
   );

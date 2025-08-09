@@ -46,7 +46,10 @@ export interface GameStats {
   guessDistribution: Record<number, number>; // guess count -> frequency
 }
 
-export const INITIAL_GAME_STATE: Omit<GameState, 'currentENSName' | 'startTime'> = {
+export const INITIAL_GAME_STATE: Omit<
+  GameState,
+  'currentENSName' | 'startTime'
+> = {
   guesses: [],
   currentGuessIndex: 0,
   gameStatus: 'playing',

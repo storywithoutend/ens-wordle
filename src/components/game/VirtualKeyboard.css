@@ -127,7 +127,7 @@
   .keyboard-key {
     border-width: 2px;
   }
-  
+
   .keyboard-key.state-correct,
   .keyboard-key.state-wrong-position,
   .keyboard-key.state-absent {
@@ -142,25 +142,25 @@
     gap: 6px;
     padding: var(--spacing-sm) 0;
   }
-  
+
   .keyboard-row {
     gap: 4px;
   }
-  
+
   .keyboard-key {
     min-height: 52px;
     font-size: 12px;
   }
-  
+
   .letter-key {
     min-width: 32px;
   }
-  
+
   .backspace-key {
     min-width: 50px;
     font-size: 10px;
   }
-  
+
   .backspace-key {
     font-size: var(--font-size-md);
   }
@@ -173,11 +173,11 @@
     font-size: 11px;
     padding: 6px 4px;
   }
-  
+
   .letter-key {
     min-width: 28px;
   }
-  
+
   .backspace-key {
     min-width: 45px;
     padding: 6px 8px;
@@ -189,7 +189,7 @@
   .keyboard-key {
     transition: none;
   }
-  
+
   .keyboard-key:hover:not(:disabled),
   .keyboard-key:active:not(:disabled) {
     transform: none;

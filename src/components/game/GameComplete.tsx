@@ -18,10 +18,13 @@ export const GameComplete: React.FC<GameCompleteProps> = ({
 }) => {
   const isWin = gameState.gameStatus === 'won';
   const guessCount = gameState.guesses.length;
-  const duration = calculateGameDuration(gameState.startTime, gameState.endTime);
-  
+  const duration = calculateGameDuration(
+    gameState.startTime,
+    gameState.endTime
+  );
+
   const title = isWin ? 'Congratulations!' : 'Game Over';
-  const message = isWin 
+  const message = isWin
     ? `You guessed ${gameState.currentENSName}.eth in ${guessCount} ${guessCount === 1 ? 'try' : 'tries'}!`
     : `The answer was ${gameState.currentENSName}.eth`;
 
@@ -36,20 +39,18 @@ export const GameComplete: React.FC<GameCompleteProps> = ({
     <div className="game-complete-overlay" role="dialog" aria-modal="true">
       <div className="game-complete-modal">
         <div className="modal-header">
-          <h2 className={`modal-title ${isWin ? 'win' : 'loss'}`}>
-            {title}
-          </h2>
+          <h2 className={`modal-title ${isWin ? 'win' : 'loss'}`}>{title}</h2>
         </div>
 
         <div className="modal-content">
           <p className="result-message">{message}</p>
-          
+
           <div className="game-stats">
             <div className="stat-item">
               <span className="stat-label">Time:</span>
               <span className="stat-value">{formatDuration(duration)}</span>
             </div>
-            
+
             {isWin && (
               <div className="stat-item">
                 <span className="stat-label">Guesses:</span>
@@ -62,10 +63,10 @@ export const GameComplete: React.FC<GameCompleteProps> = ({
             <p className="ens-name">{gameState.currentENSName}.eth</p>
             {gameState.currentAvatarUrl && (
               <div className="final-avatar">
-                <img 
-                  src={gameState.currentAvatarUrl} 
+                <img
+                  src={gameState.currentAvatarUrl}
                   alt={`Avatar for ${gameState.currentENSName}.eth`}
-                  onError={(e) => {
+                  onError={e => {
                     e.currentTarget.style.display = 'none';
                   }}
                 />

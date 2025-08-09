@@ -96,7 +96,7 @@
   .letter-cell {
     border-width: 3px;
   }
-  
+
   .letter-cell.state-correct,
   .letter-cell.state-wrong-position,
   .letter-cell.state-absent {
@@ -127,19 +127,21 @@
   .letter-cell {
     transition: none;
   }
-  
+
   .letter-cell.current-guess.filled {
     transform: none;
   }
-  
+
   @keyframes cell-fill {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
     }
   }
-  
+
   @keyframes cell-flip {
-    0%, 100% {
+    0%,
+    100% {
       transform: rotateY(0);
     }
   }

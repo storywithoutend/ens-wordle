@@ -174,33 +174,33 @@
     padding: var(--spacing-lg);
     margin: var(--spacing-sm);
   }
-  
+
   .modal-title {
     font-size: var(--font-size-lg);
   }
-  
+
   .result-message {
     font-size: var(--font-size-md);
   }
-  
+
   .game-stats {
     gap: var(--spacing-lg);
     padding: var(--spacing-sm);
   }
-  
+
   .stat-value {
     font-size: var(--font-size-md);
   }
-  
+
   .ens-name {
     font-size: var(--font-size-md);
   }
-  
+
   .final-avatar {
     width: 60px;
     height: 60px;
   }
-  
+
   .new-game-btn {
     min-width: 120px;
     padding: var(--spacing-sm) var(--spacing-md);
@@ -212,7 +212,7 @@
   .game-complete-modal {
     border-width: 3px;
   }
-  
+
   .ens-info {
     border-width: 3px;
   }
@@ -223,19 +223,21 @@
   .game-complete-overlay {
     animation: none;
   }
-  
+
   .game-complete-modal {
     animation: none;
   }
-  
+
   @keyframes overlay-fade-in {
-    from, to {
+    from,
+    to {
       opacity: 1;
     }
   }
-  
+
   @keyframes modal-slide-up {
-    from, to {
+    from,
+    to {
       transform: translateY(0);
       opacity: 1;
     }

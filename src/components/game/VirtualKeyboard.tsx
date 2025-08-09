@@ -47,27 +47,33 @@ export const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const getKeyAriaLabel = (key: string): string => {
     if (key === 'BACKSPACE') return 'Backspace';
-    
+
     const state = getKeyState(key);
     if (state === 'unused') return `Letter ${key}`;
     return `Letter ${key}, ${state}`;
   };
 
   return (
-    <div className="virtual-keyboard" role="group" aria-label="Virtual keyboard">
+    <div
+      className="virtual-keyboard"
+      role="group"
+      aria-label="Virtual keyboard"
+    >
       {KEYBOARD_LAYOUT.map((row, rowIndex) => (
         <div key={rowIndex} className="keyboard-row">
           {row.map(key => {
             const state = getKeyState(key);
             const isSpecialKey = key === 'BACKSPACE';
-            
+
             const buttonClasses = [
               'keyboard-key',
               `state-${state}`,
               isSpecialKey ? 'special-key' : 'letter-key',
               key === 'BACKSPACE' ? 'backspace-key' : '',
               disabled ? 'disabled' : '',
-            ].filter(Boolean).join(' ');
+            ]
+              .filter(Boolean)
+              .join(' ');
 
             return (
               <button

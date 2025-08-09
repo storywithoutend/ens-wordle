@@ -30,7 +30,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
     const guess = guesses[i];
     if (!guess) continue;
     const row = [];
-    
+
     for (let j = 0; j < targetLength; j++) {
       row.push(
         <LetterCell
@@ -41,7 +41,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
         />
       );
     }
-    
+
     rows.push(
       <div key={i} className="grid-row completed">
         {row}
@@ -52,7 +52,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
   // Add current input row (if game still playing)
   if (currentGuessIndex < maxGuesses && guesses.length === currentGuessIndex) {
     const currentRow = [];
-    
+
     for (let j = 0; j < targetLength; j++) {
       currentRow.push(
         <LetterCell
@@ -64,7 +64,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
         />
       );
     }
-    
+
     rows.push(
       <div key="current" className="grid-row current">
         {currentRow}
@@ -77,7 +77,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
   for (let i = 0; i < remainingRows; i++) {
     const emptyRow = [];
     const rowIndex = rows.length + i;
-    
+
     for (let j = 0; j < targetLength; j++) {
       emptyRow.push(
         <LetterCell
@@ -88,7 +88,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
         />
       );
     }
-    
+
     rows.push(
       <div key={`empty-${i}`} className="grid-row empty">
         {emptyRow}
@@ -97,12 +97,14 @@ export const GameGrid: React.FC<GameGridProps> = ({
   }
 
   return (
-    <div 
+    <div
       className="game-grid"
-      style={{
-        '--grid-columns': targetLength,
-        '--grid-rows': maxGuesses,
-      } as React.CSSProperties}
+      style={
+        {
+          '--grid-columns': targetLength,
+          '--grid-rows': maxGuesses,
+        } as React.CSSProperties
+      }
     >
       {rows}
     </div>

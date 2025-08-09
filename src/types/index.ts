@@ -16,12 +16,7 @@ export type {
 export { INITIAL_GAME_STATE, DEFAULT_GAME_CONFIG } from './game';
 
 // ENS types
-export type {
-  ENSData,
-  AvatarState,
-  ENSService,
-  ENSError,
-} from './ens';
+export type { ENSData, AvatarState, ENSService, ENSError } from './ens';
 
 export { PLACEHOLDER_AVATAR, DEFAULT_AVATAR } from './ens';
 
