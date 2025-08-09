@@ -5,6 +5,7 @@
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useENSAvatar } from '../../hooks/useENSAvatar';
+import { getENSNameMetadata } from '../../utils/ensNames';
 import { GameGrid } from './GameGrid';
 import { VirtualKeyboard } from './VirtualKeyboard';
 import { GameComplete } from './GameComplete';
@@ -17,6 +18,12 @@ export const GameBoard: React.FC = () => {
 
   const { avatarState, retry: retryAvatar } = useENSAvatar(
     gameState.currentENSName
+  );
+
+  // Get ENS metadata for display
+  const ensMetadata = React.useMemo(
+    () => getENSNameMetadata(gameState.currentENSName),
+    [gameState.currentENSName]
   );
 
   const [currentInput, setCurrentInput] = React.useState('');
@@ -129,6 +136,7 @@ export const GameBoard: React.FC = () => {
       <div className="avatar-section">
         <AvatarDisplay
           ensName={gameState.currentENSName}
+          ensMetadata={ensMetadata}
           avatarUrl={
             avatarState.type === 'loaded' ? avatarState.src : undefined
           }

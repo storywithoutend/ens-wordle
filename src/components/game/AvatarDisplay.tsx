@@ -3,11 +3,12 @@
  */
 
 import React from 'react';
-import type { AvatarState } from '../../types';
+import type { AvatarState, CuratedENSName } from '../../types';
 import './AvatarDisplay.css';
 
 interface AvatarDisplayProps {
   ensName: string;
+  ensMetadata?: CuratedENSName | null;
   avatarUrl?: string;
   state: AvatarState['type'];
   onImageLoad?: () => void;
@@ -16,6 +17,7 @@ interface AvatarDisplayProps {
 
 export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
   ensName,
+  ensMetadata,
   avatarUrl,
   state,
   onImageLoad,
@@ -113,8 +115,26 @@ export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
       <div className="avatar-container">{renderContent()}</div>
 
       <div className="ens-info">
-        <h2 className="ens-name">{ensName}.eth</h2>
-        <p className="ens-hint">Guess this ENS name!</p>
+        {ensMetadata ? (
+          <>
+            <div className="ens-metadata">
+              <span className={`category-tag category-${ensMetadata.category}`}>
+                {ensMetadata.category}
+              </span>
+              <span className={`difficulty-tag difficulty-${ensMetadata.difficulty}`}>
+                {ensMetadata.difficulty}
+              </span>
+            </div>
+            <p className="ens-hint">
+              Guess this {ensMetadata.category} ENS name!
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="ens-name">Loading...</h2>
+            <p className="ens-hint">Guess this ENS name!</p>
+          </>
+        )}
       </div>
     </div>
   );

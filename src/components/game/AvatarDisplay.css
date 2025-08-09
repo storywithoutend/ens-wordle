@@ -129,6 +129,65 @@
   font-style: italic;
 }
 
+/* ENS Metadata Tags */
+.ens-metadata {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xs);
+}
+
+.category-tag,
+.difficulty-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+
+/* Category Tag Colors */
+.category-individual {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #bbdefb;
+}
+
+.category-project {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+  border: 1px solid #e1bee7;
+}
+
+.category-generic {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+/* Difficulty Tag Colors */
+.difficulty-easy {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.difficulty-medium {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid #ffcc02;
+}
+
+.difficulty-hard {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
 /* State Variations */
 .avatar-display.state-loading {
   border-color: var(--color-correct);
@@ -176,6 +235,17 @@
   .avatar-text,
   .ens-hint {
     font-size: 12px;
+  }
+
+  .ens-metadata {
+    gap: 6px;
+  }
+
+  .category-tag,
+  .difficulty-tag {
+    padding: 4px 8px;
+    font-size: 10px;
+    border-radius: 8px;
   }
 }
 
