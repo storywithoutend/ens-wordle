@@ -147,7 +147,6 @@ export const GameBoard: React.FC = () => {
         <VirtualKeyboard
           onLetterClick={handleLetterInput}
           onBackspace={handleBackspace}
-          onEnter={handleSubmit}
           letterStates={gameState.letterStates}
           disabled={isGameComplete}
         />

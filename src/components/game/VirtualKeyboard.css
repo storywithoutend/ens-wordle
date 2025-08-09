@@ -45,11 +45,6 @@
   padding: var(--spacing-sm) var(--spacing-md);
 }
 
-.enter-key {
-  min-width: 60px;
-  font-size: 12px;
-}
-
 .backspace-key {
   min-width: 60px;
   font-size: var(--font-size-lg);
@@ -161,7 +156,6 @@
     min-width: 32px;
   }
   
-  .enter-key,
   .backspace-key {
     min-width: 50px;
     font-size: 10px;
@@ -184,7 +178,6 @@
     min-width: 28px;
   }
   
-  .enter-key,
   .backspace-key {
     min-width: 45px;
     padding: 6px 8px;
