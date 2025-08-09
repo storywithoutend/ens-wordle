@@ -1,0 +1,101 @@
+/**
+ * GameGrid component styles
+ */
+
+.game-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin: 0 auto;
+  padding: var(--spacing-md) 0;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--spacing-xs);
+  justify-content: center;
+}
+
+/* Row states */
+.grid-row.completed {
+  /* Completed rows can have special styling if needed */
+}
+
+.grid-row.current {
+  /* Current input row styling */
+}
+
+.grid-row.empty {
+  opacity: 0.7;
+}
+
+/* Dynamic grid sizing based on target length */
+.game-grid[style*="--grid-columns: 3"] .grid-row {
+  max-width: 200px;
+}
+
+.game-grid[style*="--grid-columns: 4"] .grid-row {
+  max-width: 260px;
+}
+
+.game-grid[style*="--grid-columns: 5"] .grid-row {
+  max-width: 320px;
+}
+
+.game-grid[style*="--grid-columns: 6"] .grid-row {
+  max-width: 380px;
+}
+
+.game-grid[style*="--grid-columns: 7"] .grid-row {
+  max-width: 440px;
+}
+
+.game-grid[style*="--grid-columns: 8"] .grid-row {
+  max-width: 500px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .game-grid {
+    padding: var(--spacing-sm) 0;
+  }
+  
+  .grid-row {
+    gap: 2px;
+  }
+  
+  /* Smaller max widths on mobile */
+  .game-grid[style*="--grid-columns: 3"] .grid-row {
+    max-width: 150px;
+  }
+  
+  .game-grid[style*="--grid-columns: 4"] .grid-row {
+    max-width: 200px;
+  }
+  
+  .game-grid[style*="--grid-columns: 5"] .grid-row {
+    max-width: 250px;
+  }
+  
+  .game-grid[style*="--grid-columns: 6"] .grid-row {
+    max-width: 300px;
+  }
+  
+  .game-grid[style*="--grid-columns: 7"] .grid-row {
+    max-width: 350px;
+  }
+  
+  .game-grid[style*="--grid-columns: 8"] .grid-row {
+    max-width: 320px; /* Tighter on very long words */
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .game-grid[style*="--grid-columns: 6"] .grid-row,
+  .game-grid[style*="--grid-columns: 7"] .grid-row,
+  .game-grid[style*="--grid-columns: 8"] .grid-row {
+    max-width: 280px;
+  }
+}

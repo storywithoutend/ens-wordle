@@ -1,0 +1,204 @@
+/**
+ * VirtualKeyboard component styles
+ */
+
+.virtual-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) 0;
+  margin-top: auto;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.keyboard-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: var(--spacing-sm) var(--spacing-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--animation-fast);
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+/* Key sizing */
+.letter-key {
+  min-width: 40px;
+  flex: 0 0 auto;
+}
+
+.special-key {
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.enter-key {
+  min-width: 60px;
+  font-size: 12px;
+}
+
+.backspace-key {
+  min-width: 60px;
+  font-size: var(--font-size-lg);
+}
+
+/* Key states based on letter feedback */
+.keyboard-key.state-correct {
+  background-color: var(--color-correct);
+  border-color: var(--color-correct);
+  color: white;
+}
+
+.keyboard-key.state-wrong-position {
+  background-color: var(--color-wrong-position);
+  border-color: var(--color-wrong-position);
+  color: white;
+}
+
+.keyboard-key.state-absent {
+  background-color: var(--color-absent);
+  border-color: var(--color-absent);
+  color: white;
+  opacity: 0.6;
+}
+
+.keyboard-key.state-unused {
+  background-color: var(--color-button-bg);
+  border-color: var(--color-border);
+  color: var(--color-button-text);
+}
+
+/* Interactive states */
+.keyboard-key:hover:not(:disabled) {
+  background-color: var(--color-button-hover);
+  transform: translateY(-1px);
+}
+
+.keyboard-key:active:not(:disabled) {
+  transform: translateY(0) scale(0.95);
+}
+
+.keyboard-key:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.keyboard-key.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Maintain state colors on hover for feedback keys */
+.keyboard-key.state-correct:hover:not(:disabled) {
+  background-color: #5a9a54;
+}
+
+.keyboard-key.state-wrong-position:hover:not(:disabled) {
+  background-color: #b8a348;
+}
+
+.keyboard-key.state-absent:hover:not(:disabled) {
+  background-color: #6b6d6e;
+}
+
+/* Touch feedback */
+.keyboard-key:active {
+  background-color: var(--color-button-hover);
+}
+
+/* Focus styles for accessibility */
+.keyboard-key:focus-visible {
+  outline: 2px solid var(--color-correct);
+  outline-offset: 2px;
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .keyboard-key {
+    border-width: 2px;
+  }
+  
+  .keyboard-key.state-correct,
+  .keyboard-key.state-wrong-position,
+  .keyboard-key.state-absent {
+    outline: 2px solid white;
+    outline-offset: -4px;
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 480px) {
+  .virtual-keyboard {
+    gap: 6px;
+    padding: var(--spacing-sm) 0;
+  }
+  
+  .keyboard-row {
+    gap: 4px;
+  }
+  
+  .keyboard-key {
+    min-height: 52px;
+    font-size: 12px;
+  }
+  
+  .letter-key {
+    min-width: 32px;
+  }
+  
+  .enter-key,
+  .backspace-key {
+    min-width: 50px;
+    font-size: 10px;
+  }
+  
+  .backspace-key {
+    font-size: var(--font-size-md);
+  }
+}
+
+/* Small mobile screens */
+@media (max-width: 360px) {
+  .keyboard-key {
+    min-height: 48px;
+    font-size: 11px;
+    padding: 6px 4px;
+  }
+  
+  .letter-key {
+    min-width: 28px;
+  }
+  
+  .enter-key,
+  .backspace-key {
+    min-width: 45px;
+    padding: 6px 8px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-key {
+    transition: none;
+  }
+  
+  .keyboard-key:hover:not(:disabled),
+  .keyboard-key:active:not(:disabled) {
+    transform: none;
+  }
+}

@@ -1,0 +1,146 @@
+/**
+ * LetterCell component styles
+ */
+
+.letter-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: all var(--animation-medium);
+  position: relative;
+  user-select: none;
+}
+
+/* Letter states */
+.letter-cell.state-correct {
+  background-color: var(--color-correct);
+  border-color: var(--color-correct);
+  color: white;
+}
+
+.letter-cell.state-wrong-position {
+  background-color: var(--color-wrong-position);
+  border-color: var(--color-wrong-position);
+  color: white;
+}
+
+.letter-cell.state-absent {
+  background-color: var(--color-absent);
+  border-color: var(--color-absent);
+  color: white;
+}
+
+.letter-cell.state-unused {
+  background-color: var(--color-bg-primary);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+/* Cell states */
+.letter-cell.filled {
+  border-color: var(--color-text-secondary);
+  animation: cell-fill var(--animation-fast);
+}
+
+.letter-cell.current-guess.filled {
+  border-color: var(--color-text-primary);
+  transform: scale(1.05);
+}
+
+.letter-cell.empty {
+  background-color: var(--color-bg-primary);
+}
+
+/* Animations */
+@keyframes cell-fill {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes cell-flip {
+  0% {
+    transform: rotateY(0);
+  }
+  50% {
+    transform: rotateY(90deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+
+/* Apply flip animation when state changes */
+.letter-cell.state-correct,
+.letter-cell.state-wrong-position,
+.letter-cell.state-absent {
+  animation: cell-flip var(--animation-medium);
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .letter-cell {
+    border-width: 3px;
+  }
+  
+  .letter-cell.state-correct,
+  .letter-cell.state-wrong-position,
+  .letter-cell.state-absent {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
+}
+
+/* Responsive sizing */
+@media (max-width: 480px) {
+  .letter-cell {
+    width: 48px;
+    height: 48px;
+    font-size: var(--font-size-md);
+  }
+}
+
+@media (max-width: 360px) {
+  .letter-cell {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .letter-cell {
+    transition: none;
+  }
+  
+  .letter-cell.current-guess.filled {
+    transform: none;
+  }
+  
+  @keyframes cell-fill {
+    0%, 100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes cell-flip {
+    0%, 100% {
+      transform: rotateY(0);
+    }
+  }
+}
