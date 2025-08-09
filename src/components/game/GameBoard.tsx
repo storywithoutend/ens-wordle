@@ -24,45 +24,22 @@ export const GameBoard: React.FC = () => {
   const isGameComplete = gameState.gameStatus !== 'playing';
 
   /**
-   * Handles letter input from virtual keyboard
+   * Submits a word (used by both manual submit and auto-submit)
    */
-  const handleLetterInput = (letter: string) => {
+  const submitWord = React.useCallback((word: string) => {
     if (isGameComplete) return;
 
-    setInputError('');
-
-    if (currentInput.length < targetLength) {
-      setCurrentInput(prev => prev + letter.toLowerCase());
-    }
-  };
-
-  /**
-   * Handles backspace input
-   */
-  const handleBackspace = () => {
-    if (isGameComplete) return;
-    
-    setInputError('');
-    setCurrentInput(prev => prev.slice(0, -1));
-  };
-
-  /**
-   * Handles guess submission
-   */
-  const handleSubmit = () => {
-    if (isGameComplete) return;
-
-    if (currentInput.length !== targetLength) {
+    if (word.length !== targetLength) {
       setInputError(`Must be ${targetLength} letters`);
       return;
     }
 
-    if (!isValidGuessFormat(currentInput)) {
+    if (!isValidGuessFormat(word)) {
       setInputError('Only letters allowed');
       return;
     }
 
-    const result = makeGuess(currentInput);
+    const result = makeGuess(word);
     
     if (result.success) {
       setCurrentInput('');
@@ -70,7 +47,44 @@ export const GameBoard: React.FC = () => {
     } else if (result.error) {
       setInputError(result.error);
     }
-  };
+  }, [isGameComplete, targetLength, isValidGuessFormat, makeGuess]);
+
+  /**
+   * Handles letter input from virtual keyboard
+   */
+  const handleLetterInput = React.useCallback((letter: string) => {
+    if (isGameComplete) return;
+
+    setInputError('');
+
+    if (currentInput.length < targetLength) {
+      const newInput = currentInput + letter.toLowerCase();
+      setCurrentInput(newInput);
+      
+      // Auto-submit when word is complete
+      if (newInput.length === targetLength) {
+        // Auto-submit the completed word
+        submitWord(newInput);
+      }
+    }
+  }, [isGameComplete, currentInput, targetLength, submitWord]);
+
+  /**
+   * Handles backspace input
+   */
+  const handleBackspace = React.useCallback(() => {
+    if (isGameComplete) return;
+    
+    setInputError('');
+    setCurrentInput(prev => prev.slice(0, -1));
+  }, [isGameComplete]);
+
+  /**
+   * Handles manual guess submission (Enter key or Enter button)
+   */
+  const handleSubmit = React.useCallback(() => {
+    submitWord(currentInput);
+  }, [submitWord, currentInput]);
 
   /**
    * Handles new game start
@@ -80,6 +94,26 @@ export const GameBoard: React.FC = () => {
     setInputError('');
     startNewGame();
   };
+
+  // Handle keyboard input
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isGameComplete) return;
+
+      if (event.key === 'Enter') {
+        handleSubmit();
+      } else if (event.key === 'Backspace') {
+        handleBackspace();
+      } else if (/^[a-zA-Z]$/.test(event.key)) {
+        handleLetterInput(event.key);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isGameComplete, handleSubmit, handleBackspace, handleLetterInput]);
 
   return (
     <div className="game-board">
