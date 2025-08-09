@@ -1,0 +1,82 @@
+[
+  {
+    "name": "vitalik",
+    "difficulty": "medium",
+    "category": "individual",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "ens",
+    "difficulty": "easy",
+    "category": "project",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "uniswap",
+    "difficulty": "medium",
+    "category": "project",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "compound",
+    "difficulty": "medium",
+    "category": "project",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "ethereum",
+    "difficulty": "hard",
+    "category": "generic",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "balajis",
+    "difficulty": "medium",
+    "category": "individual",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "dao",
+    "difficulty": "easy",
+    "category": "generic",
+    "hasAvatar": false,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "opensea",
+    "difficulty": "medium",
+    "category": "project",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "coinbase",
+    "difficulty": "medium",
+    "category": "project",
+    "hasAvatar": true,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  },
+  {
+    "name": "defi",
+    "difficulty": "easy",
+    "category": "generic",
+    "hasAvatar": false,
+    "addedDate": "2025-08-09",
+    "lastValidated": "2025-08-09"
+  }
+]
