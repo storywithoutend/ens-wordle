@@ -24,7 +24,6 @@
   align-items: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
-  border: 2px dashed var(--color-border);
   border-radius: var(--border-radius);
   background-color: var(--color-bg-secondary);
   min-height: 120px;
