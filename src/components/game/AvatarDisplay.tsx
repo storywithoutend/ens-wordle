@@ -72,7 +72,6 @@ export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
         return (
           <div className="avatar-loading">
             <div className="loading-spinner" />
-            <p className="avatar-text">Loading avatar...</p>
           </div>
         );
 
