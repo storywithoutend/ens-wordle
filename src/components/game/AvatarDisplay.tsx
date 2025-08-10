@@ -110,31 +110,19 @@ export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
   };
 
   return (
-    <div className={`avatar-display state-${state}`}>
+    <div className={`avatar-display-simple state-${state}`}>
       <div className="avatar-container">{renderContent()}</div>
 
-      <div className="ens-info">
-        {ensMetadata ? (
-          <>
-            <div className="ens-metadata">
-              <span className={`category-tag category-${ensMetadata.category}`}>
-                {ensMetadata.category}
-              </span>
-              <span className={`difficulty-tag difficulty-${ensMetadata.difficulty}`}>
-                {ensMetadata.difficulty}
-              </span>
-            </div>
-            <p className="ens-hint">
-              Guess this {ensMetadata.category} ENS name!
-            </p>
-          </>
-        ) : (
-          <>
-            <h2 className="ens-name">Loading...</h2>
-            <p className="ens-hint">Guess this ENS name!</p>
-          </>
-        )}
-      </div>
+      {ensMetadata && (
+        <div className="ens-metadata">
+          <span className={`category-tag category-${ensMetadata.category}`}>
+            {ensMetadata.category}
+          </span>
+          <span className={`difficulty-tag difficulty-${ensMetadata.difficulty}`}>
+            {ensMetadata.difficulty}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
