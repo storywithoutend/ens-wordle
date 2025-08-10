@@ -37,7 +37,7 @@ export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
     onImageError?.();
   };
 
-  const renderPlaceholder = (message: string) => (
+  const renderPlaceholder = () => (
     <div className="avatar-placeholder">
       <div className="placeholder-icon">
         <svg
@@ -63,7 +63,6 @@ export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
           />
         </svg>
       </div>
-      <p className="avatar-text">{message}</p>
     </div>
   );
 
@@ -97,16 +96,16 @@ export const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
           );
         }
         // If image failed to load, show placeholder
-        return renderPlaceholder('Avatar unavailable');
+        return renderPlaceholder();
 
       case 'placeholder':
-        return renderPlaceholder('No avatar found');
+        return renderPlaceholder();
 
       case 'error':
-        return renderPlaceholder('Avatar unavailable');
+        return renderPlaceholder();
 
       default:
-        return renderPlaceholder('No avatar found');
+        return renderPlaceholder();
     }
   };
 
