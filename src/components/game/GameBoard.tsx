@@ -105,6 +105,7 @@ export const GameBoard: React.FC = () => {
    * Handles new game start
    */
   const handleNewGame = () => {
+    console.log('[GameBoard] Starting new game');
     setCurrentInput('');
     setInputError('');
     startNewGame();

@@ -17,6 +17,7 @@ export function useENSAvatar(ensName: string): UseENSAvatarReturn {
   });
 
   const fetchAvatar = async (name: string) => {
+    console.log(`[useENSAvatar] fetchAvatar called for: ${name}`);
     if (!name) {
       setAvatarState({ type: 'placeholder' });
       return;
@@ -51,6 +52,9 @@ export function useENSAvatar(ensName: string): UseENSAvatarReturn {
   };
 
   useEffect(() => {
+    console.log(`[useENSAvatar] ENS name changed to: ${ensName}`);
+    // Reset to loading state immediately when ENS name changes
+    setAvatarState({ type: 'loading' });
     fetchAvatar(ensName);
   }, [ensName]);
 
